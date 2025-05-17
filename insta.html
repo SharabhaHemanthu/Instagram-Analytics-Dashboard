@@ -1,0 +1,316 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Instagram Analytics Dashboard</title>
+    <style>
+        /* CSS Variables for Themes */
+        :root {
+            --primary-bg: rgba(255, 255, 255, 0.15);
+            --text-color: #ffffff;
+            --card-bg: rgba(255, 255, 255, 0.1);
+            --shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+            --border: 1px solid rgba(255, 255, 255, 0.18);
+            --accent-color: #e1306c; /* Instagram pink */
+        }
+
+        .dark-mode {
+            --primary-bg: rgba(0, 0, 0, 0.15);
+            --text-color: #f0f0f0;
+            --card-bg: rgba(0, 0, 0, 0.1);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, #405de6 0%, #5851db 20%, #833ab4 40%, #c13584 60%, #e1306c 80%, #fd1d1d 100%);
+            color: var(--text-color);
+            min-height: 100vh;
+            padding: 20px;
+            backdrop-filter: blur(5px);
+        }
+
+        .dashboard {
+            display: grid;
+            grid-template-columns: 250px 1fr;
+            gap: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* Sidebar Styles */
+        .sidebar {
+            background: var(--primary-bg);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: var(--shadow);
+            border: var(--border);
+            height: calc(100vh - 40px);
+            transition: all 0.3s ease;
+        }
+
+        .sidebar-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 30px;
+        }
+
+        .sidebar-header h2 {
+            margin-left: 10px;
+            color: var(--accent-color);
+        }
+
+        .sidebar-menu {
+            list-style: none;
+        }
+
+        .sidebar-menu li {
+            margin-bottom: 15px;
+        }
+
+        .sidebar-menu a {
+            color: var(--text-color);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+        }
+
+        .sidebar-menu a:hover {
+            background: var(--card-bg);
+        }
+
+        .sidebar-menu i {
+            margin-right: 10px;
+            font-size: 20px;
+        }
+
+        /* Main Content Styles */
+        .main-content {
+            display: grid;
+            grid-template-rows: auto 1fr;
+            gap: 20px;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: var(--primary-bg);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: var(--shadow);
+            border: var(--border);
+        }
+
+        .header h2 {
+            color: var(--accent-color);
+        }
+
+        .theme-toggle {
+            background: var(--card-bg);
+            border: none;
+            color: var(--text-color);
+            padding: 8px 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            transition: all 0.3s ease;
+        }
+
+        .theme-toggle:hover {
+            transform: scale(1.05);
+        }
+
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .card {
+            background: var(--card-bg);
+            backdrop-filter: blur(5px);
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: var(--shadow);
+            border: var(--border);
+            transition: all 0.3s ease;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.3);
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .card-header h3 {
+            color: var(--accent-color);
+        }
+
+        .card-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(225, 48, 108, 0.2); /* Instagram pink with transparency */
+        }
+
+        .card-value {
+            font-size: 28px;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+
+        .card-footer {
+            display: flex;
+            align-items: center;
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 14px;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .dashboard {
+                grid-template-columns: 1fr;
+            }
+            
+            .sidebar {
+                height: auto;
+            }
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+</head>
+<body>
+    <div class="dashboard">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="sidebar-header">
+                <i class="fab fa-instagram" style="color: #e1306c;"></i>
+                <h2>Instagram Analytics</h2>
+            </div>
+            <ul class="sidebar-menu">
+                <li><a href="#"><i class="fas fa-home"></i> Dashboard</a></li>
+                <li><a href="#"><i class="fas fa-chart-line"></i> Insights</a></li>
+                <li><a href="#"><i class="fas fa-heart"></i> Engagement</a></li>
+                <li><a href="#"><i class="fas fa-users"></i> Audience</a></li>
+                <li><a href="#"><i class="fas fa-cog"></i> Settings</a></li>
+            </ul>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <!-- Header -->
+            <div class="header">
+                <h2>@YourInstagramHandle</h2>
+                <button class="theme-toggle" id="themeToggle">
+                    <i class="fas fa-moon"></i> Dark Mode
+                </button>
+            </div>
+
+            <!-- Cards -->
+            <div class="cards">
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Followers</h3>
+                        <div class="card-icon">
+                            <i class="fas fa-user-plus"></i>
+                        </div>
+                    </div>
+                    <div class="card-value">24.8K</div>
+                    <div class="card-footer">
+                        <i class="fas fa-arrow-up"></i> 12% from last week
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Engagement Rate</h3>
+                        <div class="card-icon">
+                            <i class="fas fa-heart"></i>
+                        </div>
+                    </div>
+                    <div class="card-value">4.8%</div>
+                    <div class="card-footer">
+                        <i class="fas fa-arrow-up"></i> 0.5% from last week
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3>Impressions</h3>
+                        <div class="card-icon">
+                            <i class="fas fa-eye"></i>
+                        </div>
+                    </div>
+                    <div class="card-value">128K</div>
+                    <div class="card-footer">
+                        <i class="fas fa-arrow-up"></i> 18% from last week
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h3>New Posts</h3>
+                        <div class="card-icon">
+                            <i class="fas fa-camera"></i>
+                        </div>
+                    </div>
+                    <div class="card-value">7</div>
+                    <div class="card-footer">
+                        <i class="fas fa-arrow-up"></i> 2 more than last week
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Dark/Light Mode Toggle
+        const themeToggle = document.getElementById('themeToggle');
+        const body = document.body;
+
+        themeToggle.addEventListener('click', () => {
+            body.classList.toggle('dark-mode');
+            
+            if (body.classList.contains('dark-mode')) {
+                themeToggle.innerHTML = '<i class="fas fa-sun"></i> Light Mode';
+            } else {
+                themeToggle.innerHTML = '<i class="fas fa-moon"></i> Dark Mode';
+            }
+        });
+
+        // Animate cards on hover
+        const cards = document.querySelectorAll('.card');
+        cards.forEach(card => {
+            card.addEventListener('mouseenter', () => {
+                card.style.transform = 'translateY(-5px)';
+            });
+            
+            card.addEventListener('mouseleave', () => {
+                card.style.transform = 'translateY(0)';
+            });
+        });
+    </script>
+</body>
+</html>
